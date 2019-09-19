@@ -39,7 +39,7 @@ function Presentation2() {
     }
   };
 
-  
+
   this.byeSellBonds = async () => {
     var personal = JSON.parse(localStorage.getItem("bond"));
     var users = JSON.parse(localStorage.getItem("users"));
@@ -51,11 +51,11 @@ function Presentation2() {
     body.prepend(header);
     var title = $("<h1>").text("Bonds manager of: " + users[0].userName);
     header.append(title);
-  
+
     var exchangeDiv = $("<div>").text(personal.name + " is traded on " + personal.exchange).attr("class", "sec");
-    var pricesDiv = $("<div>").text("Low price:  " + personal.lowPrice + ";" + 
-    "   Last Price:  " + personal.lastPrice + ";" + 
-    "   High price:  " + personal.highPrice + ";").attr("class", "sec");
+    var pricesDiv = $("<div>").text("Low price:  " + personal.lowPrice + ";" +
+      "   Last Price:  " + personal.lastPrice + ";" +
+      "   High price:  " + personal.highPrice + ";").attr("class", "sec");
     var volumeDiv = $("<div>").text("Volume of traded bonds: " + personal.volumeOfTrade).attr("class", "sec");
     var btnBuy = $("<button>").text("Buy").attr("class", "btn");
     var input = $("<input>").attr("placeholder", "Amount").css("padding", "5px").css("backgroundColor", "rgba(228, 218, 218, 0.9)");
@@ -66,16 +66,26 @@ function Presentation2() {
     body.append(volumeDiv);
     body.append(input);
     // body.append("<br>");
-    body.append(btnBuy,btnSell);
-  
+    body.append(btnBuy);
+    body.append(btnSell);
+
     var sum = 0;
     btnBuy.on("click", () => {
       var amounth = $(event.target).prev().val();
       var iznos = parseInt(amounth);
-        sum = sum + iznos;
-        console.log(sum);
-        body.append($("<p>").text("You have " + sum + " in your portfolio"));
-      });
-      return sum;
-    };
+      sum = sum + iznos;
+      // console.log(sum);
+      body.append($("<p>").text("You have " + sum + " in your portfolio"));
+    });
+    // return sum;
+    btnSell.on("click", () => {
+      amounth = $(event.target).prev().prev().val();
+      iznos = parseInt(amounth);
+      sum = sum - iznos;
+      body.append($("<p>").text("You have " + sum + " in your portfolio"));
+    });
+    users.push(sum);
+    localStorage.setItem("users", JSON.stringify(users));
+    return sum;
+  };
 }
